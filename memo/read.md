@@ -1,4 +1,4 @@
 - .DS_Store 참조 http://leechoong.com/posts/2018/ds_store/
 - 맥 가상환경(venv) 참조 https://donghwa-kim.github.io/vitualenv.html
 - vscode 장고 세팅 참조 https://velog.io/@hwang-eunji/vscode-python-django-%EC%84%B8%ED%8C%85%ED%95%98%EA%B8%B0
-- test
+- test 2: Delete .DS_Store from github
