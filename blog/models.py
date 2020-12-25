@@ -11,3 +11,6 @@ class Post(models.Model):
     created = models.DateTimeField()
     #만약 다른 유저가 글을올리고 계정을 삭제하면 글도 삭제 = True
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return '{} :: {}'.format(self.title, self.author)
