@@ -10,6 +10,5 @@ def index(request):
         'blog/index.html',
         {
             'posts': posts,
-            'a_add_b': 1+3,
         }
     )
