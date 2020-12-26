@@ -7,9 +7,7 @@
 <body>
     안녕
     <h1>네 안녕하세요.</h1>
-    <!-- {{ posts }} -->
-    <h3>{{ a_add_b }}</h3>
-    {% for p in posts %}
+    {% for p in object_list %}
     <!-- blog/models에서 참조-->
     <h4>{{ p.title }}</h4>
     {{ p.created }} by {{ p.author }}
