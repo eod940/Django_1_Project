@@ -7,6 +7,7 @@ class Post(models.Model):
     title = models.CharField(max_length=30)
     content = models.TextField()
     
+    head_image = models.ImageField(upload_to='blog/%Y/%m/%d/', blank=True)
     #created : when
     created = models.DateTimeField()
     #만약 다른 유저가 글을올리고 계정을 삭제하면 글도 삭제 = True
