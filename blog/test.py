@@ -4,6 +4,16 @@ from .models import Post
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+
+def create_post(title, content, author):
+    blog_post = Post.objects.create(
+            title=title,
+            content=content,
+            created=timezone.now(),
+            author=author
+        )
+    return blog_post
+
 class TestView(TestCase):
     def setUp(self) -> None:
         self.client = Client()
@@ -24,10 +34,9 @@ class TestView(TestCase):
         self.assertEqual(Post.objects.count(), 0)
         self.assertIn('아직 게시물이 없습니다.', soup.body.text)
 
-        post_000 = Post.objects.create(
+        post_000 = create_post(
             title='The first post',
             content='Hello World, We are the world.',
-            created=timezone.now(),
             author=self.author_000
         )
         
@@ -39,3 +48,13 @@ class TestView(TestCase):
         body = soup.body
         self.assertNotIn('아직 게시물이 없습니다.', body.text)
         self.assertIn(post_000.title, body.text)
+
+    def test_post_detail(self):
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World, We are the world.',
+            author=self.author_000
+        )
+
+        self.assertGreater(Post.objects.count(), 0)
+        self.assertEqual(post_000.get_absolute_url(), '/blog/{}'.format(post_000.pk))
