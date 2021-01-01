@@ -73,6 +73,6 @@ class TestView(TestCase):
         soup = BeautifulSoup(response.content, 'html.parser')
         title = soup.title
 
-        self.assertEqual(title.text, '{} - Blog'.format(post_000.title))
+        self.assertEqual(title.text, '{} - eod940'.format(post_000.title))
 
         self.check_navbar(soup)
