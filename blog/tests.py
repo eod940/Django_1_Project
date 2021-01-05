@@ -58,6 +58,13 @@ class TestView(TestCase):
         navbar = soup.find('div', id='navbar')
         self.assertIn('Blog', navbar.text)
         self.assertIn('About Me', navbar.text)
+
+    def check_right_side(self, soup):
+        category_card = soup.find('div', id='category-card')
+        #### 미분류 (1) 있어야 함
+        #### 정치/사회 (1) 있어야 함
+        self.assertIn('미분류 (1)', category_card.text)
+        self.assertIn('정치/사회 (1)', category_card.text)        
         
     def test_post_list(self):
         response = self.client.get('/blog/')
@@ -103,16 +110,11 @@ class TestView(TestCase):
         post_000_read_more_btn = body.find('a', id="read-more-post-{}".format(post_000.pk))
         self.assertIn(post_000_read_more_btn['href'], post_000.get_absolute_url())
 
-        # catefory card 에서
-        category_card = body.find('div', id='category-card')
-        #### 미분류 (1) 있어야 함
-        #### 정치/사회 (1) 있어야 함
-        self.assertIn('미분류 (1)', category_card.text)
-        self.assertIn('정치/사회 (1)', category_card.text)        
-
+        self.check_right_side(soup)
+        # main_div에는
         ### 첫 번째 포스트에는 '정치/사회' 있어야 함
         ### 두 번째 포스트에는 '미분류' 있어야 함
-        main_div = body.find('div', id='main_div')
+        main_div = soup.find('div', id='main_div')
         self.assertIn('정치/사회', main_div.text)
         self.assertIn('미분류', main_div.text)
 
@@ -121,6 +123,13 @@ class TestView(TestCase):
             title='The first post',
             content='Hello World, We are the world.',
             author=self.author_000
+        )
+
+        post_001 = create_post(
+            title='The second post',
+            content='2 world.',
+            author=self.author_000,
+            category=create_category(name='정치/사회'),
         )
 
         self.assertGreater(Post.objects.count(), 0)
@@ -144,3 +153,6 @@ class TestView(TestCase):
         self.assertIn(post_000.author.username, main_div.text)
 
         self.assertIn(post_000.content, main_div.text)
+
+        # catefory card 에서
+        self.check_right_side(soup)
