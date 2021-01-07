@@ -183,3 +183,27 @@ class TestView(TestCase):
         main_div = soup.find('div', id='main-div')
         self.assertNotIn('미분류', main_div.text)
         self.assertIn(category_politics.name, main_div.text)
+
+    def test_post_list_no_category(self):
+        category_politics = create_category(name='정치/사회')
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World, We are the world.',
+            author=self.author_000,
+        )
+
+        post_001 = create_post(
+            title='The second post',
+            content='2 world.',
+            author=self.author_000,
+            category=category_politics
+        )
+
+        response = self.client.get('/blog/category/_none/')
+        self.assertEqual(response.status_code, 200)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        main_div = soup.find('div', id='main-div')
+        self.assertIn('미분류', main_div.text)
+        self.assertNotIn(category_politics.name, main_div.text)
