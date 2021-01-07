@@ -177,9 +177,8 @@ class TestView(TestCase):
 
         response = self.client.get(category_politics.get_absolute_url())
         self.assertEqual(response.status_code, 200)
-        
+
         soup = BeautifulSoup(response.content, 'html.parser')
-        # self.assertEqual('Blog - {}'.format(category_politics.name), soup.title.text)
 
         main_div = soup.find('div', id='main-div')
         self.assertNotIn('미분류', main_div.text)

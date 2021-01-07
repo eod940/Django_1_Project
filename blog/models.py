@@ -7,6 +7,7 @@ class Category(models.Model):
     description = models.TextField(blank=True)
 
     slug = models.SlugField(unique=True, allow_unicode=True)
+
     def __str__(self):
         return self.name
 
@@ -27,7 +28,7 @@ class Post(models.Model):
     #만약 다른 유저가 글을올리고 계정을 삭제하면 글도 삭제 = True
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    category = models.ForeignKey(Category, blank=True, null=True,on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self) -> str:
         return '{} :: {}'.format(self.title, self.author)
