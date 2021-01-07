@@ -17,6 +17,13 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
 
+class Tag(models.Model):
+    name = models.CharField(max_length=40, unique=True)
+    slug = models.SlugField(unique=True, allow_unicode=True)
+
+    def __str__(self) -> str:
+        return self.name
+
 class Post(models.Model):
     # title: blog title
     title = models.CharField(max_length=30)
@@ -29,6 +36,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self) -> str:
         return '{} :: {}'.format(self.title, self.author)
