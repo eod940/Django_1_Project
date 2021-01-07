@@ -46,11 +46,10 @@ class PostListByCategory(ListView):
         slug = self.kwargs['slug']
 
         if slug == '_none':
-            category = None
+            context['category'] = '미분류'
         else:
             category = Category.objects.get(slug = slug)
-
-        context['category'] = category
+            context['category'] = category
 
         # context['title'] = 'Blog - {}'.format(category.name)
         return context
