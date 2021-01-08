@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post, Category
+from .models import Post, Category, Tag
 from django.views.generic import ListView, DetailView
 # Create your views here.
 # 어떠한 model을 template에 담아주는 방식 사용 => FBV(function based view) -> CBV(class based view)
@@ -24,6 +24,21 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data(**kwargs)
         context['category_List'] = Category.objects.all()
         context['posts_without_category'] = Post.objects.filter(category = None).count()
+        return context
+
+class PostListByTag(ListView):
+    def get_queryset(self):
+        tag_slug = self.kwargs['slug']
+        tag = Tag.objects.get(slug=tag_slug)
+        
+        return tag.post_set.order_by('-created')
+    
+    def get_context_data(self, *, object_list = None, **kwargs):
+        tag_slug = self.kwargs['slug']
+        context = super(type(self), self).get_context_data(**kwargs)
+        context['category_List'] = Category.objects.all()
+        context['posts_without_category'] = Post.objects.filter(category = None).count()
+        context['tag'] = Tag.objects.get(slug=tag_slug)
         return context
 
 class PostListByCategory(ListView):
