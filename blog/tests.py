@@ -122,12 +122,15 @@ class TestView(TestCase):
         self.assertIn('아직 게시물이 없습니다.', soup.body.text)
 
     def test_post_list_with_post(self):
+        tag_america = create_tag(name='america')
 
         post_000 = create_post(
             title='The first post',
             content='Hello World, We are the world.',
             author=self.author_000
         )
+        post_000.tags.add(tag_america)
+        post_000.save()
 
         post_001 = create_post(
             title='The second post',
@@ -135,6 +138,8 @@ class TestView(TestCase):
             author=self.author_000,
             category=create_category(name='정치/사회'),
         )
+        post_001.tags.add(tag_america)
+        post_001.save()
         
         self.assertGreater(Post.objects.count(), 0)
 
@@ -156,12 +161,20 @@ class TestView(TestCase):
         self.assertIn('정치/사회', main_div.text)
         self.assertIn('미분류', main_div.text)
 
+        # tag
+        post_card_000 = main_div.find('div', id='post-card-{}'.format(post_000.pk))
+        self.assertIn('#america', post_card_000.text) # Tag가 해당 Post의 card마다 있다.
+
     def test_post_detail(self):
         post_000 = create_post(
             title='The first post',
             content='Hello World, We are the world.',
             author=self.author_000
         )
+
+        tag_america = create_tag(name='america')
+        post_000.tags.add(tag_america)
+        post_000.save()
 
         post_001 = create_post(
             title='The second post',
@@ -194,6 +207,9 @@ class TestView(TestCase):
 
         # catefory card 에서
         self.check_right_side(soup)
+
+        # tag
+        self.assertIn('#america', main_div.text) # Tag가 해당 Post의 card마다 있다.
     
     def test_post_list_by_category(self):
         category_politics = create_category(name='정치/사회')
