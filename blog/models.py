@@ -36,7 +36,7 @@ class Post(models.Model):
     
     head_image = models.ImageField(upload_to='blog/%Y/%m/%d/', blank=True)
     #created : when
-    created = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
     #만약 다른 유저가 글을올리고 계정을 삭제하면 글도 삭제 = True
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 

@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Post, Category, Tag
-from django.views.generic import ListView, DetailView, UpdateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView
 # Create your views here.
 # 어떠한 model을 template에 담아주는 방식 사용 => FBV(function based view) -> CBV(class based view)
 
@@ -25,6 +25,25 @@ class PostDetail(DetailView):
         context['category_List'] = Category.objects.all()
         context['posts_without_category'] = Post.objects.filter(category = None).count()
         return context
+
+class PostCreate(CreateView):
+    model = Post
+    fields = [
+        'title',
+        'content',
+        'head_image',
+        'category',
+        'tags',
+    ]
+
+    def form_valid(self, form):
+        current_user = self.request.user
+        if current_user.is_authenticated:
+            form.instance.author = current_user
+            return super(type(self),self).form_valid(form)
+        else:
+            return redirect('/blog')    
+
 
 class PostUpdate(UpdateView):
     model = Post
