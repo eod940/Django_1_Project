@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'markdownx',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,4 @@ MEDIA_URL = '/media/'
 # https://neutronx.github.io/django-markdownx/customization/#markdownx_media_path
 
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

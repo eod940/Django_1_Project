@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Post, Category, Tag
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
+from .forms import CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
@@ -26,6 +27,7 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data(**kwargs)
         context['category_List'] = Category.objects.all()
         context['posts_without_category'] = Post.objects.filter(category = None).count()
+        context['comment_form'] = CommentForm()
         return context
 
 class PostCreate(LoginRequiredMixin, CreateView):
@@ -120,3 +122,17 @@ class PostListByCategory(ListView):
     #         'posts': posts,
     #     }
     # )
+
+def new_comment(request, pk):
+    post = Post.objects.get(pk=pk)
+    
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect(comment.get_absolute_url())
+    else:
+        return redirect('/blog/')
