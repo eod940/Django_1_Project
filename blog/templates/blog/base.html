@@ -13,6 +13,25 @@
   <!-- Global Site Tag (gtag.js) - Google Analytics -->
 </head>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <body>
   <div class="navbar navbar-expand-lg fixed-top navbar-light bg-light" id="navbar">
     <div class="container">
@@ -73,9 +92,38 @@
             </div>
           </li>
         </ul>
+
+        <!-- User -->
+        <ul class="nav navbar-nav ml-auto">
+          {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">{{ user }} <span
+                  class="caret"></span></a>
+              <div class="dropdown-menu" aria-labelledby="download">
+                <!-- <a class="dropdown-item" rel="noopener" target="_blank"
+                  href="https://jsfiddle.net/bootswatch/3he50zsf/">Open in JSFiddle</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="../4/simplex/bootstrap.min.css" download>bootstrap.min.css</a>
+                <a class="dropdown-item" href="../4/simplex/bootstrap.css" download>bootstrap.css</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="../4/simplex/_variables.scss" download>_variables.scss</a> -->
+                <a class="dropdown-item" href="#" download>Log out</a>
+              </div>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                로그인
+              </button>
+            </li>
+          {% endif %}
+        </ul>
       </div>
     </div>
   </div>
+
+  <!-- 6'30'' 모달창 안켜지는 오류 -->
 
   <!-- Page Content -->
   <div class="container">
@@ -136,6 +184,7 @@
   <script src="{% static 'blog/_assets/js/jquery.min.js' %}"></script>
   <script src="{% static 'blog/_assets/js/popper.min.js' %}"></script>
   <script src="{% static 'blog/bootstrap/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'blog/bootstrap/bootstrap.min.js' %}"></script>
   <script src="{% static 'blog/_assets/js/custom.js' %}"></script>
 </body>
 
