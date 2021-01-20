@@ -22,6 +22,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
     path('markdownx/', include('markdownx.urls')),
+    path('accounts/', include('allauth.urls')),
     # 위의 식 또는 url(r'^markdownx/', include('markdownx.urls')),
 ]
 
