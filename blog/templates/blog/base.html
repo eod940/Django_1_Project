@@ -10,27 +10,9 @@
   <link rel="stylesheet" href="{% static 'blog/_assets/css/custom.min.css' %}">
   <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.css' %}">
   <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- Global Site Tag (gtag.js) - Google Analytics -->
 </head>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <body>
   <div class="navbar navbar-expand-lg fixed-top navbar-light bg-light" id="navbar">
@@ -107,13 +89,13 @@
                 <a class="dropdown-item" href="../4/simplex/bootstrap.css" download>bootstrap.css</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="../4/simplex/_variables.scss" download>_variables.scss</a> -->
-                <a class="dropdown-item" href="#" download>Log out</a>
+                <a class="dropdown-item" href="/accounts/logout/">Log out</a>
               </div>
             </li>
           {% else %}
             <li class="nav-item">
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
                 로그인
               </button>
             </li>
@@ -123,7 +105,26 @@
     </div>
   </div>
 
-  <!-- 6'30'' 모달창 안켜지는 오류 -->
+  {% load socialaccount %}
+  <!-- 6'30'' 모달창 안켜지는 오류 : bootstrap.min.js 없었음 -->
+  <!-- Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <a role="button" class="btn btn-default" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i>  Log in with Google</a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Page Content -->
   <div class="container">
