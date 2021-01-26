@@ -137,13 +137,24 @@ def new_comment(request, pk):
     else:
         return redirect('/blog/')
 
+class CommentUpdate(UpdateView):
+    model = Comment
+    form_class = CommentForm
+
+    def get_object(self, queryset=None):
+        comment = super(CommentUpdate, self).get_object()
+        if comment.author != self.request.user:
+            raise PermissionError(' 권한이 없습니다. ')
+
+        return comment
+
 #### Comment Delete 클래스지향(CBV)
 # class CommentDelete(DeleteView):
 #     model = Comment
     
 #     def get_object(self, queryset=None):
 #         comment = super(CommentDelete.self).get_object()
-#         if comment.auteor != self.request.user:
+#         if comment.author != self.request.user:
 #             raise PermissionError(" 권한이 없습니다. ")
 #         return comment
 

@@ -23,6 +23,7 @@ urlpatterns = [
     #### Comment Delete 클래스지향(CBV)
     # path('delete_comment/<int:pk>/', views.CommentDelete.as_view()),
     #### Comment Delete 함수지향(FBV)
+    path('edit_comment/<int:pk>/', views.CommentUpdate.as_view()),
     path('delete_comment/<int:pk>/', views.delete_comment),
     path('<int:pk>/new_comment/', views.new_comment),
     path('<int:pk>/', views.PostDetail.as_view()),
