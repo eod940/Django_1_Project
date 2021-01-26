@@ -20,8 +20,10 @@ urlpatterns = [
     path('tag/<str:slug>/', views.PostListByTag.as_view()),
     path('category/<str:slug>/', views.PostListByCategory.as_view()),
     path('<int:pk>/update/', views.PostUpdate.as_view()),
-    path('delete_comment/<int:pk>/', views.CommentDelete.as_view()),
-    # path('delete_comment/<int:pk>/', views.delete_comment),
+    #### Comment Delete 클래스지향(CBV)
+    # path('delete_comment/<int:pk>/', views.CommentDelete.as_view()),
+    #### Comment Delete 함수지향(FBV)
+    path('delete_comment/<int:pk>/', views.delete_comment),
     path('<int:pk>/new_comment/', views.new_comment),
     path('<int:pk>/', views.PostDetail.as_view()),
     path('create/', views.PostCreate.as_view()),

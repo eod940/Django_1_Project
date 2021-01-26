@@ -138,26 +138,26 @@ def new_comment(request, pk):
         return redirect('/blog/')
 
 #### Comment Delete 클래스지향(CBV)
-class CommentDelete(DeleteView):
-    model = Comment
+# class CommentDelete(DeleteView):
+#     model = Comment
     
-    def get_object(self, queryset=None):
-        comment = super(CommentDelete.self).get_object()
-        if comment.auteor != self.request.user:
-            raise PermissionError(" 권한이 없습니다. ")
-        return comment
+#     def get_object(self, queryset=None):
+#         comment = super(CommentDelete.self).get_object()
+#         if comment.auteor != self.request.user:
+#             raise PermissionError(" 권한이 없습니다. ")
+#         return comment
 
-    def get_success_url(self) -> str:
-        post = self.get_object().post
-        return post.get_absolute_url() + '#comment-list'
+#     def get_success_url(self) -> str:
+#         post = self.get_object().post
+#         return post.get_absolute_url() + '#comment-list'
 
 #### Comment Delete 함수지향(FBV)
-# def delete_comment(request, pk):
-#     comment = Comment.objects.get(pk=pk)
+def delete_comment(request, pk):
+    comment = Comment.objects.get(pk=pk)
 
-#     if request.user == comment.author:
-#         post = comment.post
-#         comment.delete()
-#         return redirect(post.get_absolute_url() + '#comment-list')
-#     else:
-#         return redirect('/blog/')
+    if request.user == comment.author:
+        post = comment.post
+        comment.delete()
+        return redirect(post.get_absolute_url() + '#comment-list')
+    else:
+        raise PermissionError(" 권한이 없습니다. ")
