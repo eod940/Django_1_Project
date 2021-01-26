@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Post, Category, Tag, Comment
-from django.views.generic import ListView, DetailView, UpdateView, CreateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from .forms import CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -137,12 +137,27 @@ def new_comment(request, pk):
     else:
         return redirect('/blog/')
 
-def delete_comment(request, pk):
-    comment = Comment.objects.get(pk=pk)
+#### Comment Delete 클래스지향(CBV)
+class CommentDelete(DeleteView):
+    model = Comment
+    
+    def get_object(self, queryset=None):
+        comment = super(CommentDelete.self).get_object()
+        if comment.auteor != self.request.user:
+            raise PermissionError(" 권한이 없습니다. ")
+        return comment
 
-    if request.user == comment.author:
-        post = comment.post
-        comment.delete()
-        return redirect(post.get_absolute_url() + '#comment-list')
-    else:
-        return redirect('/blog/')
+    def get_success_url(self) -> str:
+        post = self.get_object().post
+        return post.get_absolute_url() + '#comment-list'
+
+#### Comment Delete 함수지향(FBV)
+# def delete_comment(request, pk):
+#     comment = Comment.objects.get(pk=pk)
+
+#     if request.user == comment.author:
+#         post = comment.post
+#         comment.delete()
+#         return redirect(post.get_absolute_url() + '#comment-list')
+#     else:
+#         return redirect('/blog/')
