@@ -3,6 +3,7 @@ from .models import Post, Category, Tag, Comment
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from .forms import CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 # Create your views here.
 # 어떠한 model을 template에 담아주는 방식 사용 => FBV(function based view) -> CBV(class based view)
@@ -21,6 +22,12 @@ class PostList(ListView):
         context['category_List'] = Category.objects.all()
         context['posts_without_category'] = Post.objects.filter(category = None).count()
         return context
+
+class PostSearch(PostList):
+    def get_queryset(self):
+        q = self.kwargs['q']
+        object_list = Post.objects.filter(Q(title__contains=q) | Q(content__contains=q))
+        return object_list
 
 class PostDetail(DetailView):
     model = Post
