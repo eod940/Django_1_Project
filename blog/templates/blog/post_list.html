@@ -7,6 +7,7 @@
 <h1 class="my-4" id="blog-list-title">Blog {% if category %}
   <small class="text-muted">: {{ category }}</small>{% endif %}{% if tag %}
   <small class="text-muted">: #{{ tag }}</small>{% endif %}
+  {% if search_info %}<small class="text-muted">: #{{ search_info }}</small>{% endif %}
 </h1>
 
 <!-- Blog Post -->
